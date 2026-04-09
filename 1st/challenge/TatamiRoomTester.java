@@ -36,7 +36,7 @@ public class TatamiRoomTester{
         }
 
         if (flg) {
-            System.out.println("----------\n" + ++cnt + "個目（" + sunpo + "畳半）\n\n" + room);
+            System.out.println("---------------\n" + ++cnt + "個目（" + sunpo + "畳半）\n\n" + room);
             return;
         }
 
