@@ -1,7 +1,7 @@
 // Triangleクラスを書く
 
 public class Triangle {
-    private double a, b, c;
+    private double a = 0, b = 0, c = 0;
 
     public Triangle(double a, double b, double c) {
         this.a = a;     this.b = b;     this.c = c;
@@ -15,9 +15,7 @@ public class Triangle {
         this(n, n);
     }
 
-    public Triangle() {
-        this(0);
-    }
+    public Triangle() {}
 
     public double getA() { return a; }
     public double getB() { return b; }

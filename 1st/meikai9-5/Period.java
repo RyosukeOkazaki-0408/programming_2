@@ -9,21 +9,11 @@ class Period {
         this.to = new Day(to);
     }
 
-    public Day getFrom() {
-        return new Day(from);
-    }
+    public Day getFrom() { return new Day(from); }
+    public Day getTo() { return new Day(to); }
 
-    public Day getTo() {
-        return new Day(to);
-    }
-
-    public void setFrom(Day day) {
-        this.from = new Day(day);
-    }
-
-    public void setTo(Day day) {
-        this.to = new Day(day);
-    }
+    public void setFrom(Day day) { this.from = new Day(day); }
+    public void setTo(Day day) { this.to = new Day(day); }
 
     @Override
     public String toString() {

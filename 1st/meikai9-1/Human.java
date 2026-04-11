@@ -1,16 +1,10 @@
 // Humanクラスを書く
 
 public class Human{
-    private String name, grade;
-    private double height, weight;
+    private String name = "", grade = "";
+    private double height = 0.0, weight = 0.0;
 
-    public Human() {
-        this.name = "";
-        this.height = 0.0;
-        this.weight = 0.0;
-        this.grade = "";
-    }
-
+    public Human() {}
     public Human(String name, double height, double weight, String grade) {
         this.name = name;
         this.height = height;

@@ -23,17 +23,9 @@ public class Room {
         yokoSukima[size/2-1][size/2] = mn;
     }
 
-    public int getSunpo() {
-        return sunpo;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public int[][] getVis() {
-        return vis;
-    }
+    public int getSunpo() { return sunpo; }
+    public int getSize() { return size; }
+    public int[][] getVis() { return vis; }
 
     public boolean setTatami(Tatami tatami) {
         int id = tatami.getId();

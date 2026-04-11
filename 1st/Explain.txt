@@ -2,12 +2,663 @@
 学籍番号：37714027
 氏名：岡崎凌介
 
-以下，説明
-
-レポート（Explain.txt）必須項目
+----------meikai9-1-----------
 • 提出ファイル等の説明
+Human.java: Humanクラスが書いてあります
+HumanArrayInInit.java: Humanインスタンスをいくつかの手段で配列に入れます
+
 • プログラムの使い方の説明
+Human.java
+
+private String name = "", grade = "";
+private double height = 0.0, weight = 0.0;
+
+public Human() {}
+public Human(String name, double height, double weight, String grade) {
+    this.name = name;
+    this.height = height;
+    this.weight = weight;
+    this.grade = grade;
+}
+→ Humanクラスのコンストラクタです
+
+public String getName() { return name; }
+public double getHeight() { return height; }
+public double getWeight() { return weight; }
+public String getGrade() { return grade; }
+→ Humanインスタンスのフィールドの値を取得します
+
+public Human copy() {
+    return new Human(name, height, weight, grade);
+}
+→ Humanインスタンスをコピーします
+
+public void setName(String name) { this.name = name; }
+public void setHeight(double height) { this.height = height; }
+public void setWeight(double weight) { this.weight = weight; }
+public void setGrade(String grade) { this.grade = grade; }
+public void set(String name, double height, double weight, String grade) {
+    setName(name);
+    setHeight(height); 
+    setWeight(weight);
+    setGrade(grade);
+}
+→ Humanインスタンスのフィールドの値を変更します
+
+@Override
+public String toString() {
+    return "name: " + name + "\nheight: " + height + "\nweight: " + weight + "\ngrade: " + grade;
+}
+→ Humanインスタンスのフィールドの値を列挙します
+
+----------------------------------------------------
+HumanArrayInInit.java
+
+public static void main(String [] args){
+    Human[] array = new Human[3];
+    
+    //Humanインスタンスの作成（1と2の引数は空）
+    Human pattern_1 = new Human();
+    Human pattern_2 = new Human();
+    Human pattern_3 = new Human("C", 160.0, 60.0, "M2");
+
+    //set系methodを1に使用
+    pattern_1.setName("A");
+    pattern_1.setHeight(140.0);
+    pattern_1.setWeight(45.5);
+    pattern_1.setGrade("B1");
+
+    //まとめてsetできるところも見せている
+    pattern_2.set("B", 200.0, 100.0, "D1");
+
+    //配列に代入
+    array[0] = pattern_1;
+    array[1] = pattern_2;
+    array[2] = pattern_3;
+    
+    //変更前の要素を表示
+    for (int i = 0; i < array.length; i++) {
+        System.out.println(array[i]);
+        System.out.println();
+    }
+    
+    //3に変更を加えてみる
+    pattern_3.setName("C_changed");
+    pattern_3.setHeight(160.5);
+    pattern_3.setWeight(65.0);
+    pattern_3.setGrade("D1");
+            
+    //get系とコピーを使用
+    Human human = pattern_3.copy();
+    String name = pattern_1.getName();
+
+    //変更、コピーが成功していることを見せている
+    System.out.println(human);
+    System.out.println();
+    System.out.println("Aの名前：" + name);
+}
+
 • 考察
+ゲッタとセッタを意識してメソッドの作成ができた。
+引数が空のコンストラクタを作ったり、コピーの際も参照コピーとならないように気をつけた。
+meikai9-5まで終わった後に再度見直しをしたので、とてもよくできていると思う。
+
+• 自己評価 A
+
+----------meikai9-2-----------
+• 提出ファイル等の説明
+Day.java: Dayクラスが書いてあります
+DayTester.java: Dayクラスのテストをしています
+
+• プログラムの使い方の説明
+Day.java
+
+教科書通りなので一部省略
+
+@Override
+public String toString() {
+
+    return String.format("%4d年 %2d月 %2d日", year, month, date);
+}
+→formatを利用して体裁を整えている
+
+------------------------------
+DayTester.java
+
+public static void main (String [] args){
+
+    //いろいろな方法でインスタンスを生成
+    Day pattern_1 = new Day();
+    Day pattern_2 = new Day(120);
+    Day pattern_3 = new Day(1500,12);
+    Day pattern_4 = new Day(2006,4,8);
+    Day pattern_5 = new Day(pattern_4);
+    
+    //表示
+    System.out.println(pattern_1);
+    System.out.println(pattern_2);
+    System.out.println(pattern_3);
+    System.out.println(pattern_4);
+    System.out.println(pattern_5);
+}
+
+• 考察
+formatを使って文字の幅を揃えることで、見栄えがよくなるようにした。
+また、9-1と同様、空のインスタンスに初期値を設定した。
+余談：pattern_4はぼくの誕生日で、授業日がちょうど誕生日だった。
+
+• 自己評価 A
+
+----------meikai9-3-----------
+• 提出ファイル等の説明
+Account.java: Accountクラスが書いてあります
+AccountTester.java: Accountクラスのテストをしています
+Day.java: 前述したので省略
+
+• プログラムの使い方の説明
+Account.java
+
+教科書通りなので一部省略
+
+@Override
+public String toString() {
+    return "口座名義：" + name + "\n口座番号：" + no + "\n預金残高：" + balance + "\n口座開設日：" + openDay;
+}
+→ コンストラクタに口座開設日を追加して、toStringをOverrideしました
+
+-------------------------------
+AccountTester.java
+
+public static void main(String [] args){
+
+    //アカウントインスタンスの作成
+    Day day = new Day(2026, 4, 8);
+    Account pattern_1 = new Account("A", "00000001", 0, day);
+
+    //変更前アカウントの表示
+    System.out.println(pattern_1);
+
+    //残高を増やして口座開設日を取得
+    pattern_1.deposit(500);
+    Day openDay = pattern_1.getOpenDay();
+
+    //口座開設日と変更後アカウントの表示
+    System.out.println();
+    System.out.println(openDay);
+    System.out.println();
+
+    System.out.println(pattern_1);
+}
+
+• 考察
+コンストラクタとtoStringに口座開設日を追加した。
+ほとんど教科書と違いがないため、特に言及する点はない。
+
+• 自己評価 A
+
+----------meikai9-4-----------
+9-4ファイルが存在しなかったため一部省略
+• 考察 
+演習課題スライドに9-4が存在したため、念のためファイル作成をして問題を解いた。
+9-3とほぼ同様、コンストラクタとtoStringに誕生日を加えた。
+
 • 自己評価
 
-37714030;
+----------meikai9-5-----------
+• 提出ファイル等の説明
+Period.java: Periodクラスが書いてあります
+PeriodTester.java: Periodのクラスのテストをしています
+Day.java: 省略
+
+• プログラムの使い方の説明
+Period.java
+
+public Day getFrom() { return new Day(from); }
+public Day getTo() { return new Day(to); }
+
+public void setFrom(Day day) { this.from = new Day(day); }
+public void setTo(Day day) { this.to = new Day(day); }
+
+@Override
+public String toString() {
+    return "開始日：" + this.from + "\n終了日：" + this.to;
+}
+→ ゲッタとセッタ、toStringで開始日と終了日を表示する機能を追加した。
+
+------------------------------
+PeriodTester.java
+
+public static void main(String [] args){
+
+    //Dayクラスのインスタンスを作成
+    Day start = new Day();
+    Day end = new Day(2026, 4, 8);
+
+    //Periodクラスのインスタンスを作成
+    Period period = new Period(start, end);
+    
+    //periodの表示
+    System.out.println(period);
+}
+
+• 考察
+今までクラスをこのように重複させて使ったことはなかったので、こんな使い方があるんだなと驚いた。
+9-1から9-4まででだんだん慣れてきたように思う。
+
+• 自己評価 A
+
+------------kadai-------------
+• 提出ファイル等の説明
+Triangle.java: Triangleクラスが書いてあります
+TriangleTester.java: Triangleクラスのテストをしています
+
+• プログラムの使い方の説明
+Triangle.java
+
+private double a = 0, b = 0, c = 0;
+
+public Triangle(double a, double b, double c) {
+    this.a = a;     this.b = b;     this.c = c;
+}
+
+public Triangle(double l, double m) {
+    this(l, l, m);
+}
+
+public Triangle(double n) {
+    this(n, n);
+}
+
+public Triangle() {}
+→ コンストラクタ（引数が空のコンストラクタを追加）
+
+public double getA() { return a; }
+public double getB() { return b; }
+public double getC() { return c; }
+
+public void setA(double a) { this.a = a; }
+public void setB(double b) { this.b = b; }
+public void setC(double c) { this.c = c; }
+→ ゲッタとセッタ
+
+public boolean existing() {
+    return a + b > c && b + c > a && c + a > b;
+}
+→ 三角形が存在するかの確認
+
+public boolean isosceles() {
+    if(!this.existing()) { return false; }
+    if(a == b || b == c || c == a) { return true; }
+    return false;
+}
+→ 二等辺三角形が成立するかの確認
+
+public boolean equilateral() {
+    if(!this.existing()) { return false; }
+    if(a == b && b == c) { return true; }
+    return false;
+}
+→ 正三角形が成立するかの確認
+
+public boolean compareTriangle(Triangle tri) {
+    if(this.a == tri.a && this.b == tri.b && this.c == tri.c) {return true; }
+    if(this.a == tri.a && this.b == tri.c && this.c == tri.b) {return true; }
+    if(this.a == tri.b && this.b == tri.c && this.c == tri.a) {return true; }
+    if(this.a == tri.b && this.b == tri.a && this.c == tri.c) {return true; }
+    if(this.a == tri.c && this.b == tri.a && this.c == tri.b) {return true; }
+    if(this.a == tri.c && this.b == tri.b && this.c == tri.a) {return true; }
+    return false;
+}
+→ 三角形が合同かどうかの確認
+
+@Override
+public String toString() {
+    String str;
+    if(this.equilateral()) { str = "この図形は正三角形です。"; }
+    else if(this.isosceles()) { str = "この図形は二等辺三角形です。"; }
+    else if(this.existing()) { str = "この図形は三角形です。"; }
+    else str = "この図形は三角形ではありません。";
+    return "各辺の長さは、" + a + ", " + b + ", " + c + "です。\n" + str;
+}
+→ どのように判定しているかわかりやすくするための表示
+
+------------------------------
+TriangleTester.java
+
+public static void main(String [] args){
+
+    //trianglesにTriangleインスタンスを3つ入れる
+    Triangle[] triangles = new Triangle[3];
+
+    triangles[0] = new Triangle(3, 4, 5);
+    triangles[1] = new Triangle(3, 4);
+    triangles[2] = new Triangle(5);
+
+    //テストケース1と2の作成
+    Triangle test_1 = new Triangle();
+    test_1.setA(triangles[0].getA());
+    test_1.setB(triangles[0].getB());
+    test_1.setC(triangles[0].getC());
+
+    Triangle test_2 = new Triangle(3,5,10);
+
+    //変更前の配列の要素を表示
+    for(int i = 0; i < 3; i++) {
+        explain("\ntriangles[" + i + "]", triangles[i]);
+        System.out.print("----------------");
+    }
+
+    //test1とtest2がどのような形かを表示するmethod
+    explain("\ntest_1", test_1);
+    System.out.print("----------------");
+    explain("\ntest_2", test_2);
+    System.out.print("----------------");
+
+    //合同な三角形かどうか判定して、わかりやすく表示
+    System.out.println("\n" + explain(triangles[0].compareTriangle(test_1), "triangles[0]", "test_1"));
+    System.out.println("\n" + explain(triangles[0].compareTriangle(test_2), "triangles[0]", "test_2"));
+}
+
+//合同判定を可視化するmethod
+private static String explain(boolean bool, String tri_1, String tri_2) {
+    String str;
+    if(bool) { str = "等しいです。"; }
+    else str = "等しくないです。";
+    return tri_1 + "と" + tri_2 + "は、三辺が" + str;
+}
+
+//三角形の形状（三角形が存在するか）を可視化するmethod
+private static void explain(String str, Triangle tri) {
+    System.out.println(str + "の" + tri); 
+    System.out.println("\n正三角形か：" + tri.equilateral());
+    System.out.println("二等辺三角形か：" + tri.isosceles());
+    System.out.println("三角形か：" + tri.existing());
+}
+
+• 考察
+与えられた条件に加え、空インスタンスの作成と、そもそも与えられた辺の長さの三角形が存在するかを判定するmethodを追加した。
+処理を可視化する方法がなかなか浮かばなかったが、説明するmethodを用いてわかりやすくする方法を思いついた。
+全ての機能を使うという条件を満たすのが大変だった。
+
+• 自己評価 A
+
+----------challenge-----------
+• 提出ファイル等の説明
+Room.java: 部屋クラス（畳の生成など）について書きました
+Tatami.java: 畳クラスについて書きました
+TatamiRoomTester.java: n*nの部屋について、条件を満たす敷き詰め方を全通り表示します
+
+• プログラムの使い方の説明
+Room.java
+
+private int size;
+private int sunpo;
+private int[][] vis;
+private int[][] tateSukima, yokoSukima;
+
+public Room(int size) {
+    if(size < 3) { throw new IllegalArgumentException("その寸法では畳を敷き詰められません。"); }
+    if(size%2 == 0) { throw new IllegalArgumentException("その部屋のサイズでは炉を設置できません。"); }
+    this.size = size;
+    this.sunpo = (size-2) * 4;
+    this.vis = new int[size][size];
+    this.tateSukima = new int[size][size-1];
+    this.yokoSukima = new int[size-1][size];
+
+    int mn = Integer.MIN_VALUE;
+    vis[size/2][size/2] = -1;
+    tateSukima[size/2][size/2] = mn;
+    tateSukima[size/2][size/2-1] = mn;
+    yokoSukima[size/2][size/2] = mn;
+    yokoSukima[size/2-1][size/2] = mn;
+}
+→ コンストラクタ
+→ 部屋の大きさと寸法（何畳半か）を保存する変数と、既に畳や炉が置かれているか（置かれているならそのid）を判定する配列、
+部屋の各辺（端を除く）に畳の縁が何枚接しているかを保持する配列を作成。
+→ Sukimaの値が1以上かどうかで判定するため、炉の縁に最小の値を初期値として代入。
+
+
+public int getSunpo() { return sunpo; }
+public int getSize() { return size; }
+public int[][] getVis() { return vis; }
+→ ゲッタ
+
+public boolean setTatami(Tatami tatami) {
+    int id = tatami.getId();
+    int x = tatami.getX();
+    int y = tatami.getY();
+    boolean direction = tatami.getDirection();
+    
+    if(vis[x][y] != 0) { return false; }
+    if(direction) { 
+        if(y >= size-1) { return false; }
+        if(vis[x][y+1] != 0) { return false; }
+        vis[x][y] = id;
+        vis[x][y+1] = id;
+    }
+    else {
+        if(x >= size-1) { return false; }
+        if(vis[x+1][y] != 0) { return false; }
+        vis[x][y] = id;
+        vis[x+1][y] = id;
+    }
+    checkTatami(tatami, true);
+    if(crossedTatami(tatami)) {
+        removeTatami(tatami);
+        return false;
+    }
+    return true;
+}
+→ セッタ
+→ tatamiの情報を引数から取得し、向き（direction = true が横向き、falseが縦向き）に応じてvisにidを代入。vis = 0を未配置とみなしている。
+→ checkTatami()（後述する）でtatamiに関する情報を追加し、もし十字になっていた場合はremoveTatami()でtatamiを削除する（これも後述）。
+→ 畳の設置に成功した場合はtrueを、失敗した場合はfalseを返す。
+
+public void removeTatami(Tatami tatami) {
+    int x = tatami.getX();
+    int y = tatami.getY();
+    boolean direction = tatami.getDirection();
+
+    vis[x][y] = 0; 
+    if(direction) { vis[x][y+1] = 0; }
+    else { vis[x+1][y] = 0; }
+
+    checkTatami(tatami, false);
+}
+→ 畳の向きに応じてvisを0（未配置）に戻し、checkTatami()（後述する）でtatamiに関する情報を削除している。
+
+private void checkTatami(Tatami tatami, boolean bool) {
+    int x = tatami.getX();
+    int y = tatami.getY();
+    boolean direction = tatami.getDirection();
+    int n;
+    if(bool) { n = 1; }
+    else n = -1;
+
+    if(direction) {
+        if(x < size-1 && y < size) { yokoSukima[x][y] += n; }
+        if(y < size && x-1 >= 0) { yokoSukima[x-1][y] += n; }
+        if(x-1 >= 0 && y+1 < size) { yokoSukima[x-1][y+1] += n; }
+        if(x < size-1 && y+1 < size) { yokoSukima[x][y+1] += n; }
+        if(x < size && y-1 >= 0) { tateSukima[x][y-1] += n; }
+        if(x < size && y+1 < size-1) { tateSukima[x][y+1] += n; }
+    } else {
+        if(x < size && y < size-1) { tateSukima[x][y] += n; }
+        if(x < size && y-1 >= 0) { tateSukima[x][y-1] += n; }
+        if(y-1 >= 0 && x+1 < size) { tateSukima[x+1][y-1] += n; }
+        if(y < size-1 && x+1 < size) { tateSukima[x+1][y] += n; }
+        if(y < size && x-1 >= 0) { yokoSukima[x-1][y] += n; }
+        if(y < size && x+1 < size-1) { yokoSukima[x+1][y] += n; }
+    }
+}
+→ privateなmethodである。
+→ 引数のbooleanによって正反対の処理が行われる（trueなら情報を追加、falseなら削除）。
+→ 部屋の各辺にいくつ畳の縁が接しているかの情報を、setTatami()で設置された畳の付近のみ更新している。
+trueなら1、falseなら-1を加えることで、追加・削除を行なっている。
+
+private boolean crossedTatami(Tatami tatami) {
+    int x = tatami.getX();
+    int y = tatami.getY();
+    boolean direction = tatami.getDirection();
+
+    if(direction) {
+        if (y < size && y-1 >= 0 && x+1 < size 
+            && yokoSukima[x][y] > 0 && yokoSukima[x][y-1] > 0  
+            && tateSukima[x][y-1] > 0 && tateSukima[x+1][y-1] > 0) {
+                return true;
+            }
+        if(x < size && y < size && x-1 >= 0 && y-1 >= 0
+            && yokoSukima[x-1][y] > 0 && yokoSukima[x-1][y-1] > 0 
+            && tateSukima[x-1][y-1] > 0 && tateSukima[x][y-1] > 0) {
+                return true;
+            }
+        if(x+1 < size && y+2 < size 
+            && yokoSukima[x][y+2] > 0 && yokoSukima[x][y+1] > 0 
+            && tateSukima[x][y+1] > 0 && tateSukima[x+1][y+1] > 0) {
+                return true;
+            }
+        if(x < size && x-1 >= 0 && y+2 < size
+            && yokoSukima[x-1][y+2] > 0 && yokoSukima[x-1][y+1] > 0 
+            && tateSukima[x-1][y+1] > 0 && tateSukima[x][y+1] > 0) {
+            return true;
+        }
+    } else {
+        if(x < size && y < size && x-1 >= 0 && y-1 >= 0
+            && yokoSukima[x-1][y] > 0 && yokoSukima[x-1][y-1] > 0 
+            && tateSukima[x][y-1] > 0 && tateSukima[x-1][y-1] > 0) {
+            return true;
+        }
+        if(x < size && x-1 >= 0 && y+1 < size
+            && yokoSukima[x-1][y+1] > 0 && yokoSukima[x-1][y] > 0 
+            && tateSukima[x][y] > 0 && tateSukima[x-1][y] > 0) {
+            return true;
+        }
+        if(y < size && y-1 >= 0 && x+2 < size
+            && yokoSukima[x+1][y] > 0 && yokoSukima[x+1][y-1] > 0 
+            && tateSukima[x+2][y-1] > 0 && tateSukima[x+1][y-1] > 0) {
+            return true;
+        }
+        if(y+1 < size && x+2 < size
+            && yokoSukima[x+1][y+1] > 0 && yokoSukima[x+1][y] > 0 
+            && tateSukima[x+2][y] > 0 && tateSukima[x+1][y] > 0) {
+            return true;
+        }
+    }
+    return false;
+}
+→ privateなmethodである。
+→ 畳が設置された際に、その畳付近の隙間を調べ、十字になっていればtrue、なっていなければfalseを返す。
+
+@Override
+public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for(int i = 0; i < size; i++) {
+        for(int j = 0; j < size; j++) {
+            if(vis[i][j] == -1) { sb.append(" #"); }
+            else sb.append(' ').append((char)('A' + vis[i][j] - 1));
+        }
+        sb.append("\n");
+    }
+    return sb.toString();
+}
+→ visを表示している
+
+------------------------------
+Tatami.java
+
+private int id, x, y;
+private boolean direction;
+
+public Tatami(int id, int x, int y, boolean direction) {
+    this.id = id;
+    this.x = x;
+    this.y = y;
+    this.direction = direction;
+}
+
+public int getId() { return id; }
+public int getX() { return x; }
+public int getY() {return y; }
+public boolean getDirection() { return direction; }
+→ idと座標、向きを保持している
+
+------------------------------
+Search.java
+
+private static void dfs(Room room, int id) {
+    int[][] vis = room.getVis();
+    int size = room.getSize();
+    int x = -1, y = -1;
+
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            if (vis[i][j] == 0) {
+                x = i;
+                y = j;
+                break;
+            }
+        }
+        if (x != -1) { break; }
+    }
+
+    if (x == -1) {
+        System.out.println("---------------\n" + ++cnt + "個目（" + room.getSunpo() + "畳半）\n\n" + room);
+        return;
+    }
+
+    Tatami yokoTatami = new Tatami(id, x, y, true);
+    Tatami tateTatami = new Tatami(id, x, y, false);
+    if(room.setTatami(tateTatami)) {
+        dfs(room, id+1);
+        room.removeTatami(tateTatami);
+    }
+    if(room.setTatami(yokoTatami)) {
+        dfs(room, id+1);
+        room.removeTatami(yokoTatami);
+    }
+}
+→ privateなmethodである。
+→ 左上を起点に探索をすすめ、畳が置かれていない（かつ炉がない）場所があれば畳を設置できるか縦と横それぞれで判定する。
+→ もし置ければ（setTatami() == true）より深く探索を続け、置けなければ（false）探索を終了する。
+→ 探索後はremoveTatami()でバックトラック処理を行っている。
+
+public static void dfs(int size) {
+    cnt = 0;
+    Room room = new Room(size);
+
+    dfs(room, 1);
+}
+→ roomインスタンスの作成と、カウントのリセットを行なっている。
+→ 実行の際はこれを呼び出す。
+
+-------------------------------
+TatamiRoomTester.java
+
+public static void main(String [] args){
+    Search.dfs(3);
+    Search.dfs(5);
+    Search.dfs(7);
+}
+→ 例として、3*3、5*5、7*7の部屋で試している。
+→ 部屋の大きさ（何畳半か）、畳の配置、何個目の解なのかが表示される。
+
+• 考察
+処理を高速に行うため、畳を設置するごとに十字を探す処理を入れ（置いた畳の周辺のみ）、バックトラッキングを行なっている。
+また、再帰に使われる関数や特定のクラスでしか用いないメソッドなどは、極力privateでカプセル化することを意識している。
+引数が偶数（炉が置けない）であったり、1以下の値（畳が置けなかったり、サイズとして不正な値）であった場合は、エラーメッセージが出るようにしている。
+
+表示するのをアルファベットではなく数値にしてformatすればもっと大きな引数でも実行できると考えたが、課題の指示に従ってアルファベットのままにした。
+
+全体的に構造が複雑で、特に十字を見つける処理がとても煩雑になってしまったため、かなり改善の余地があると思う（方法は浮かばないが）。
+どう考えてもこの解法は想定解ではないため、問題の想定解についての解説をしてほしいなと思った。
+
+個人的には、1年後期のプログラミング1で取り組んだ、Nクイーン問題の応用という雰囲気がした。
+第1回の他の課題と比較して圧倒的に難易度が高く、今まで受けたプログラム課題で最難といってもよいほど難しく感じた。
+チャレンジ課題のおかげで、クラスというものに対してとても理解が深まったと思う。
+
+• 自己評価 A（とても頑張った）
+
+------------------------------
+• 教えた人（教えてくれた人）
+37714030 小倉 教生
+37714018 岩渕 壮史
