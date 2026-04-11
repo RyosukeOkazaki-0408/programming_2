@@ -386,7 +386,8 @@ private static void explain(String str, Triangle tri) {
 • 提出ファイル等の説明
 Room.java: 部屋クラス（畳の生成など）について書きました
 Tatami.java: 畳クラスについて書きました
-TatamiRoomTester.java: n*nの部屋について、条件を満たす敷き詰め方を全通り表示します
+Search.java: n*nの部屋について、条件を満たす敷き詰め方を全通り見つけます
+TatamiRoomTester.java: 上記クラスのテストをしています
 
 • プログラムの使い方の説明
 Room.java
