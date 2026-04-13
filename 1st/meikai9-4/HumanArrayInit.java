@@ -1,17 +1,17 @@
-// mainメソッドを含むHumanArrayInitクラスを書く
+// mainメソッドを含むHuman2ArrayInitクラスを書く
 
 public class HumanArrayInit{
 
     public static void main(String [] args){
-        Human[] array = new Human[3];
+        Human2[] array = new Human2[3];
 
         Day day_1 = new Day(1000, 5, 1);
         Day day_2 = new Day(2000, 12, 2);
         Day day_3 = new Day();
         
-        Human pattern_1 = new Human();
-        Human pattern_2 = new Human();
-        Human pattern_3 = new Human("C", 160.0, 60.0, "M2", day_3);
+        Human2 pattern_1 = new Human2();
+        Human2 pattern_2 = new Human2();
+        Human2 pattern_3 = new Human2("C", 160.0, 60.0, "M2", day_3);
 
         pattern_1.setName("A");
         pattern_1.setHeight(140.0);
@@ -36,10 +36,10 @@ public class HumanArrayInit{
         pattern_3.setGrade("D1");
         pattern_3.setBirthday(new Day(1990, 8));
                 
-        Human human = pattern_3.copy();
+        Human2 Human2 = pattern_3.copy();
         String name = pattern_1.getName();
 
-        System.out.println(human);
+        System.out.println(Human2);
         System.out.println();
         System.out.println("Aの名前：" + name);
     }

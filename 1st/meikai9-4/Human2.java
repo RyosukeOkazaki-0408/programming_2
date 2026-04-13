@@ -1,11 +1,11 @@
-// Humanクラスを書く
+// Human2クラスを書く
 
-public class Human{
+public class Human2{
     private String name, grade;
     private double height, weight;
     private Day birthday;
 
-    public Human() {
+    public Human2() {
         this.name = "";
         this.height = 0.0;
         this.weight = 0.0;
@@ -13,7 +13,7 @@ public class Human{
         this.birthday = new Day();
     }
 
-    public Human(String name, double height, double weight, String grade, Day birthday) {
+    public Human2(String name, double height, double weight, String grade, Day birthday) {
         this.name = name;
         this.height = height;
         this.weight = weight;
@@ -26,8 +26,8 @@ public class Human{
     public double getWeight() { return weight; }
     public String getGrade() { return grade; }
     public Day getBirthday() { return new Day(birthday); }
-    public Human copy() {
-        return new Human(name, height, weight, grade, new Day(birthday));
+    public Human2 copy() {
+        return new Human2(name, height, weight, grade, new Day(birthday));
     }
 
     public void setName(String name) { this.name = name; }
