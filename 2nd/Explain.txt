@@ -1,5 +1,226 @@
-プログラミング演習?-?ソースコード説明
-学籍番号：00000000
-氏名：名工太郎
+プログラミング演習2 第2回レポート
+学籍番号：37714027
+氏名：岡崎凌介
 
-以下，説明
+• レポートに書く内容
+各ファイルの説明
+プログラム，実行方法，結果の説明
+考察(工夫した点，難しかった点，などなど）
+自己評価(A から D)
+教えてもらった人の学籍番号・名前
+教えてあげた人の学籍番号・名前
+
+----------meikai9-1-----------
+• 提出ファイル等の説明
+
+
+------------------------------
+• プログラムの使い方の説明
+
+
+------------------------------
+• 考察
+
+
+------------------------------
+• 自己評価
+
+----------meikai9-2-----------
+• 提出ファイル等の説明
+
+
+------------------------------
+• プログラムの使い方の説明
+
+
+------------------------------
+• 考察
+
+
+------------------------------
+• 自己評価
+
+----------meikai9-3-----------
+• 提出ファイル等の説明
+
+
+------------------------------
+• プログラムの使い方の説明
+
+
+------------------------------
+• 考察
+
+
+------------------------------
+• 自己評価
+
+----------meikai9-4-----------
+• 提出ファイル等の説明
+
+
+------------------------------
+• プログラムの使い方の説明
+
+
+------------------------------
+• 考察
+
+
+------------------------------
+• 自己評価
+
+----------meikai9-5-----------
+• 提出ファイル等の説明
+
+
+------------------------------
+• プログラムの使い方の説明
+
+
+------------------------------
+• 考察
+
+
+------------------------------
+• 自己評価
+
+------------kadai-------------
+• 提出ファイル等の説明
+VariableBaseValue
+
+public class VariableBaseValue {
+    private static int base = 10;
+    private int value;
+
+    //コンストラクタ
+    public VariableBaseValue(int v) {
+        value = v;
+    }
+    
+    //base, valueのセッタ
+    public static void setBase(int b) {
+        if(b < 2) { base = 2; }
+        else if(10 < b) { base = 10; }
+        else base = b;
+    }
+    public void setValue(int v) {
+        value = v;
+    }
+
+    //base, valueのゲッタ
+    public static int getBase() { return base; }
+    public int getValue() { return value; }
+
+    //valueの値を受け取り、その値をbaseで割ったあまりを考えることで、下位の桁から順に数字を埋めている
+    @Override
+    public String toString() {
+        int v = value;
+        String s = "";
+        do{
+            s = (v % base) + s;
+            v /= base;
+        } while(v > 0);
+        return value + "を" + base + "進数で表すと、" + s + "です。";
+    }
+}
+
+------------------------------
+VarBaseValTester
+
+public class VarBaseValTester {
+    public static void main(String[] args) {
+        VariableBaseValue[] varBaseVals = new VariableBaseValue[3];
+
+        //値の設定
+        varBaseVals[0] = new VariableBaseValue(2);
+        varBaseVals[1] = new VariableBaseValue(8);
+        varBaseVals[2] = new VariableBaseValue(17);
+        
+        //print用のmethodを作成した
+        //baseに15と1を代入し、それぞれ10と2になることを確かめている
+        print(15, varBaseVals);
+        print(1, varBaseVals);
+        print(6, varBaseVals);
+
+        //値の再設定, setValue()のテスト
+        varBaseVals[0].setValue(100);
+        varBaseVals[1].setValue(10);
+        varBaseVals[2].setValue(1);
+
+        //再設定できたことをテスト
+        print(2, varBaseVals);
+        print(5, varBaseVals);
+        print(8, varBaseVals);
+    }
+    
+    //動作が正しく行えていることを確認するmethod
+    private static void print(int base, VariableBaseValue[] a) {
+
+        //baseをsetできていることを確認
+        VariableBaseValue.setBase(base);
+
+        //printした後、valueとbaseをgetできていることを確認（toStringの内容と合致している）
+        for(int i = 0; i < a.length; i++) { 
+            System.out.println("------------------------");
+            System.out.println(a[i]); 
+            System.out.println("getValue():" + a[i].getValue());
+            System.out.println("getBase():" + VariableBaseValue.getBase());
+        }
+    }
+}
+
+------------------------------
+• プログラムの使い方の説明
+
+print(int base, VariableBaseValue[] a);
+→ aの各要素をbase進数にした値を表示する
+→ setBase(), getValue(), getBase(), println()を使用しているため、動作確認がしやすい
+
+それ以外のmethodの動作確認は、main()内で直接行っている
+
+------------------------------
+• 考察
+staticを用いることで、クラス共通の変数を持つことができるとわかった。
+今までstaticをよくわからずに使っていたので、どんな場面でstaticを持たせるのがよいのかよく理解できた。
+
+toString()の内容については、hintをほぼそのまま利用したが、動作確認のためにfield変数を表示する仕組みを追加した。
+課題の指示で配列の作成があったためprint()の引数に配列を用いたが、valueを引数に含んで、「print(3,2) → 3は2進数で11」のようにするとわかりやすいかなと思った。
+
+------------------------------
+• 自己評価 A
+
+------------kadai2-------------
+• 提出ファイル等の説明
+
+
+------------------------------
+• プログラムの使い方の説明
+
+
+------------------------------
+• 考察
+
+
+------------------------------
+• 自己評価
+
+----------challenge-----------
+• 提出ファイル等の説明
+
+
+------------------------------
+• プログラムの使い方の説明
+
+
+------------------------------
+• 考察
+
+
+------------------------------
+• 自己評価
+
+------------------------------
+• 教えた人（教えてくれた人）
+37714030 小倉 教生
+37714018 岩渕 壮史
