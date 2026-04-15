@@ -11,9 +11,14 @@ public class BinHexVarBaseValTester {
         
         //print用のmethodを作成した
         //baseに15と1を代入し、それぞれ10と2になることを確かめている
+
+        //1は2進数に置き換えられる
         print(1, varBaseVals);
+        //8進数
         print(8, varBaseVals);
+        //10進数
         print(10, varBaseVals);
+        //20は16進数に置き換えられる
         print(20, varBaseVals);
 
         //値の再設定, setValue()のテスト

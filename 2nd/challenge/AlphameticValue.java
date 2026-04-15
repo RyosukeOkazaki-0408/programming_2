@@ -1,5 +1,5 @@
 // AlphameticValueクラスを書く
-// AlphameticValueクラスを書く
+
 import java.util.Arrays;
 
 public class AlphameticValue {
@@ -7,7 +7,7 @@ public class AlphameticValue {
     private static int[] vals = new int[10];
     private char[] digits;
     private static int cnt = 0;
-    
+    private static final int freq = 1;
     
     public AlphameticValue(String s) {
         digits = s.toCharArray();
@@ -22,6 +22,7 @@ public class AlphameticValue {
         for(char character : a.getDigits()) { used[character - 'A'] = true; }
         for(char character : b.getDigits()) { used[character - 'A'] = true; }
         for(char character : c.getDigits()) { used[character - 'A'] = true; }
+
         checkMSD[a.getMSD()] = true;
         checkMSD[b.getMSD()] = true;
         checkMSD[c.getMSD()] = true;
@@ -58,7 +59,7 @@ public class AlphameticValue {
         if(aInt + bInt == cInt) {
             sb.append(++cnt).append("個目: ").append(Arrays.toString(vals))
             .append("\n").append(aInt).append(" + ").append(bInt).append(" = ").append(cInt).append("\n");
-            if(cnt % 1 == 0) {
+            if(cnt % freq == 0) {
                 System.out.print(sb);
                 sb = new StringBuilder();
             }

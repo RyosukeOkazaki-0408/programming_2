@@ -87,38 +87,38 @@
 
 ------------kadai-------------
 • 提出ファイル等の説明
-VariableBaseValue
+BinHexVariableBaseValue
 
-public class VariableBaseValue {
+public class BinHexVariableBaseValue {
     private static int base = 10;
     private int value;
 
-    //コンストラクタ
-    public VariableBaseValue(int v) {
+    // //コンストラクタ
+    public BinHexVariableBaseValue(int v) {
         value = v;
     }
     
     //base, valueのセッタ
     public static void setBase(int b) {
         if(b < 2) { base = 2; }
-        else if(10 < b) { base = 10; }
+        else if(16 < b) { base = 16; }
         else base = b;
     }
-    public void setValue(int v) {
-        value = v;
-    }
+    public void setValue(int v) { value = v; }
 
     //base, valueのゲッタ
     public static int getBase() { return base; }
     public int getValue() { return value; }
 
     //valueの値を受け取り、その値をbaseで割ったあまりを考えることで、下位の桁から順に数字を埋めている
+    //あまりが10以上の場合は、それに対応するアルファベットに置き換える
     @Override
     public String toString() {
         int v = value;
         String s = "";
         do{
-            s = (v % base) + s;
+            int r = v % base;
+            s = r >= 10 ? (char)('A' + r - 10) + s : r + s;
             v /= base;
         } while(v > 0);
         return value + "を" + base + "進数で表すと、" + s + "です。";
@@ -126,46 +126,52 @@ public class VariableBaseValue {
 }
 
 ------------------------------
-VarBaseValTester
+BinHexVarBaseValTester
 
-public class VarBaseValTester {
+public class BinHexVarBaseValTester {
     public static void main(String[] args) {
-        VariableBaseValue[] varBaseVals = new VariableBaseValue[3];
+        BinHexVariableBaseValue[] varBaseVals = new BinHexVariableBaseValue[4];
 
         //値の設定
-        varBaseVals[0] = new VariableBaseValue(2);
-        varBaseVals[1] = new VariableBaseValue(8);
-        varBaseVals[2] = new VariableBaseValue(17);
+        varBaseVals[0] = new BinHexVariableBaseValue(2);
+        varBaseVals[1] = new BinHexVariableBaseValue(8);
+        varBaseVals[2] = new BinHexVariableBaseValue(17);
+        varBaseVals[3] = new BinHexVariableBaseValue(257);
         
         //print用のmethodを作成した
         //baseに15と1を代入し、それぞれ10と2になることを確かめている
-        print(15, varBaseVals);
+
+        //1は2進数に置き換えられる
         print(1, varBaseVals);
-        print(6, varBaseVals);
+        //8進数
+        print(8, varBaseVals);
+        //10進数
+        print(10, varBaseVals);
+        //20は16進数に置き換えられる
+        print(20, varBaseVals);
 
         //値の再設定, setValue()のテスト
         varBaseVals[0].setValue(100);
-        varBaseVals[1].setValue(10);
-        varBaseVals[2].setValue(1);
+        varBaseVals[1].setValue(3568);
+        varBaseVals[2].setValue(4095);
+        varBaseVals[3].setValue(252);
 
         //再設定できたことをテスト
-        print(2, varBaseVals);
-        print(5, varBaseVals);
-        print(8, varBaseVals);
+        print(16, varBaseVals);
     }
     
     //動作が正しく行えていることを確認するmethod
-    private static void print(int base, VariableBaseValue[] a) {
+    private static void print(int base, BinHexVariableBaseValue[] a) {
 
         //baseをsetできていることを確認
-        VariableBaseValue.setBase(base);
+        BinHexVariableBaseValue.setBase(base);
 
         //printした後、valueとbaseをgetできていることを確認（toStringの内容と合致している）
         for(int i = 0; i < a.length; i++) { 
             System.out.println("------------------------");
             System.out.println(a[i]); 
             System.out.println("getValue():" + a[i].getValue());
-            System.out.println("getBase():" + VariableBaseValue.getBase());
+            System.out.println("getBase():" + BinHexVariableBaseValue.getBase());
         }
     }
 }
@@ -207,6 +213,8 @@ toString()の内容については、hintをほぼそのまま利用したが、
 
 ----------challenge-----------
 • 提出ファイル等の説明
+AlphameticValue
+
 
 
 ------------------------------
