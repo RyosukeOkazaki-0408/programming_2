@@ -215,18 +215,215 @@ toString()の内容については、hintをほぼそのまま利用したが、
 • 提出ファイル等の説明
 AlphameticValue
 
+public class AlphameticValue {
+    private static StringBuilder sb = new StringBuilder();
+    private static int[] vals = new int[10];
+    private char[] digits;
+    private static int cnt = 0;
+    private static int freq = 1;
+    
+    public AlphameticValue(String s) {
+        digits = s.toCharArray();
+    }
 
+    public static void dfs(AlphameticValue a, AlphameticValue b, AlphameticValue c) { 
+        boolean[] used = new boolean[10]; 
+        boolean[] checkMSD = new boolean[10]; 
+        boolean[] assigned = new boolean[10];
+        cnt = 0;
+
+        //a,b,cのいずれかに使われている文字を確認
+        for(char character : a.getDigits()) { used[character - 'A'] = true; }
+        for(char character : b.getDigits()) { used[character - 'A'] = true; }
+        for(char character : c.getDigits()) { used[character - 'A'] = true; }
+
+        //a,b,cの最上位桁を確認
+        checkMSD[a.getMSD()] = true;
+        checkMSD[b.getMSD()] = true;
+        checkMSD[c.getMSD()] = true;
+        
+        //再帰の本体
+        dfs(a, b, c, used, checkMSD, assigned, 0); 
+    }
+
+    private static void dfs(AlphameticValue a, AlphameticValue b, AlphameticValue c, boolean[] used, boolean[] checkMSD, boolean[] assigned, int n) {
+
+        //全ての対応関係ができたら探す
+        if(n == vals.length) { 
+            searchComb(a, b, c);
+            return; 
+        }
+
+        //a,b,cのいずれにも使われていないアルファベットは回さない
+        if(!used[n]) { 
+            dfs(a, b, c, used, checkMSD, assigned, n+1);
+            return; 
+        }
+
+        for(int i = 0; i < vals.length; i++) {
+            //nonsenseかどうか確認
+            if(checkMSD[n] && i == 0) { continue; }
+
+            vals[n] = i;
+            assigned[n] = true;
+
+            //ありえない組み合わせかどうか判定
+            if(checker(a, b, c, assigned)) { dfs(a, b, c, used, checkMSD, assigned, n+1); }
+
+            //バックトラック処理
+            assigned[n] = false;
+        }
+    }
+
+    //a+b=cになるかを調べる
+    private static void searchComb(AlphameticValue a, AlphameticValue b, AlphameticValue c) {
+
+        int aInt = a.toInt();
+        int bInt = b.toInt();
+        int cInt = c.toInt();
+
+        //もしa+b=cなら出力
+        //freqで出力頻度を変更可能（現在は1）
+        //解が多い場合は、freqを調整することでprintの頻度を落とすことができる
+        if(aInt + bInt == cInt) {
+            sb.append(String.format("%2d", ++cnt)).append("個目: ").append(Arrays.toString(vals))
+            .append("\n").append(aInt).append(" + ").append(bInt).append(" = ").append(cInt).append("\n\n");
+            if(cnt % freq == 0) {
+                System.out.print(sb);
+                sb = new StringBuilder();
+            }
+        }
+    }
+
+    //計算できるところから計算し、再帰回数を減らす
+    private static boolean checker(AlphameticValue a, AlphameticValue b, AlphameticValue c, boolean[] assigned) {
+        int carry = 0;
+        int aLen = a.getLength();
+        int bLen = b.getLength();
+        int cLen = c.getLength();
+        int mx = Math.max(aLen, Math.max(bLen, cLen));
+        
+        for(int i = 0; i < mx; i++) {
+            int aIdx = aLen - 1 - i;
+            int bIdx = bLen - 1 - i;
+            int cIdx = cLen - 1 - i;
+
+            //対応関係が決まっていなければ計算しない
+            if(aIdx >= 0 && !assigned[a.getDigit(aIdx) - 'A']) { return true; }
+            if(bIdx >= 0 && !assigned[b.getDigit(bIdx) - 'A']) { return true; }
+            if(cIdx >= 0 && !assigned[c.getDigit(cIdx) - 'A']) { return true; }
+
+            //桁数を越えていたら0扱いする
+            int aTmp = (aIdx >= 0) ? a.toInt(aIdx) : 0;
+            int bTmp = (bIdx >= 0) ? b.toInt(bIdx) : 0;
+            int cTmp = (cIdx >= 0) ? c.toInt(cIdx) : 0;
+
+            int sum = (aTmp + bTmp + carry) % 10;
+
+            //枝刈り
+            if(sum != cTmp) { return false; }
+
+            //桁上げ
+            carry = (aTmp + bTmp + carry) / 10;
+        }
+        return (carry == 0) ? true : false;
+    }
+
+    //与えられたstringを数値に直す
+    private int toInt() {
+        int tmp = 0;
+        for(int i = 0; i < digits.length; i++) {
+            char c = digits[i];
+            tmp *= 10;
+            tmp += vals[c - 'A'];
+        }
+        return tmp;
+    }
+
+    //与えられたstringのn文字目だけを数値に直す
+    private int toInt(int n) { return vals[digits[n] - 'A']; }
+
+    //セッタ
+    public static void setVals(int[] vals) { AlphameticValue.vals = vals.clone(); }
+    public void setDigits(char[] digits) { this.digits = digits.clone(); }
+    public static void setFreq(int n) { freq = n; }
+
+    //ゲッタ
+    public static int[] getVals() { return vals.clone(); }
+    public char[] getDigits() { return digits.clone(); }
+    private char getDigit(int n) { return digits[n]; }
+    private int getMSD() { return digits[0] - 'A'; }
+    private int getLength() { return digits.length; }
+    public static int getCnt() { return cnt; }
+    public static StringBuilder getSb() { return sb; }
+    public static int getFreq() { return freq; }
+}
+→ 複雑なので、適宜コメントアウトで説明を加えている
+
+------------------------------
+AlphameticValueTester
+
+public class AlphameticValueTester {
+   public static void main(String[] args) {
+      AlphameticValue a = new AlphameticValue("ABCDEFG");
+      AlphameticValue b = new AlphameticValue("JJAIBIC");
+      AlphameticValue c = new AlphameticValue("BIHJABD");
+
+      //時間計測と処理の実行
+      long start = System.nanoTime();
+      AlphameticValue.dfs(a, b, c);
+      long end = System.nanoTime();
+
+      //値の取得と解の表示
+      int cnt = AlphameticValue.getCnt();
+      StringBuilder sb = AlphameticValue.getSb();
+
+      sb.append("処理時間: ").append(String.format("%.3f", (double)(end - start) / 1E9)).append("秒").append("\n解の個数: ").append(cnt).append("個\n");
+      System.out.println(sb);
+   }
+}
 
 ------------------------------
 • プログラムの使い方の説明
 
+AlphameticValue a = new AlphameticValue("ABCDEFG");
+AlphameticValue b = new AlphameticValue("JJAIBIC");
+AlphameticValue c = new AlphameticValue("BIHJABD");
+→ 3つのインスタンスを作成
+
+AlphameticValue.dfs(a, b, c);
+→ dfs()を呼ぶ
+
+ 1個目: [1, 2, 0, 7, 8, 9, 7, 2, 3, 1]
+1207897 + 1113230 = 2321127
+ ・
+(略)
+ ・
+319個目: [7, 9, 9, 9, 8, 8, 0, 7, 1, 1]
+7999880 + 1171919 = 9171799
+→ 解とそのときの対応関係が表示される
+
+処理時間: 1.167秒
+→ mainメソッドでは、処理時間を表示する仕組みを追記している
 
 ------------------------------
 • 考察
+動くコードになるまでの時間はかなり短かったが、処理時間を短くするのがとても大変だった。
+以前プログラミング1でも似たような枝刈り作業をしたことがあったが、今回は添え字が複雑だったのと、再帰の方法が単純でなかったこともあり、かなり苦戦した。
 
+再帰の回数を減らすための工夫をかなりしていて、boolを用いることで使われていないアルファベットは再帰しないようにしたり、
+各桁の和が一致しなければその時点で探索を切り、極力深くまで潜らないようにしている。
+しかし、この再帰はランダム（vals依存なので正確にはランダムではないが、到底予測不能）に対応関係が決まる（下位桁から決まらない）ため、
+a,b,cの組み合わせによってはかなり深くまで潜ってしまい、実行速度に十倍以上の差が生じてしまう。
+
+また、解の個数が膨大になる組み合わせがあり、その対策としてStringBuilderを用いてprintの頻度を落とす手法をとった。
+freqの値をsetFreq()で調整することで、解の表示頻度を変更することができる。
+
+まだまだ改善の余地はあると思うが、入力に依存しない高速化方法を全く思いつかなかった。
+現状でも実行に困ることはないと思うので、とても満足している。
 
 ------------------------------
-• 自己評価
+• 自己評価 A
 
 ------------------------------
 • 教えた人（教えてくれた人）
