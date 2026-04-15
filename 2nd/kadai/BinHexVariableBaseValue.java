@@ -4,7 +4,7 @@ public class BinHexVariableBaseValue {
     private static int base = 10;
     private int value;
 
-    //コンストラクタ
+    // //コンストラクタ
     public BinHexVariableBaseValue(int v) {
         value = v;
     }
@@ -12,12 +12,10 @@ public class BinHexVariableBaseValue {
     //base, valueのセッタ
     public static void setBase(int b) {
         if(b < 2) { base = 2; }
-        else if(10 < b) { base = 10; }
+        else if(16 < b) { base = 16; }
         else base = b;
     }
-    public void setValue(int v) {
-        value = v;
-    }
+    public void setValue(int v) { value = v; }
 
     //base, valueのゲッタ
     public static int getBase() { return base; }
@@ -29,7 +27,8 @@ public class BinHexVariableBaseValue {
         int v = value;
         String s = "";
         do{
-            s = (v % base) + s;
+            int r = v % base;
+            s = r >= 10 ? (char)('A' + r - 10) + s : r + s;
             v /= base;
         } while(v > 0);
         return value + "を" + base + "進数で表すと、" + s + "です。";
