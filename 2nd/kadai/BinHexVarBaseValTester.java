@@ -1,16 +1,16 @@
 
 public class BinHexVarBaseValTester {
     public static void main(String[] args) {
-        BinHexVariableBaseValue[] varBaseVals = new BinHexVariableBaseValue[4];
+        BinHexVarBaseValue[] varBaseVals = new BinHexVarBaseValue[4];
 
         //値の設定
-        varBaseVals[0] = new BinHexVariableBaseValue(2);
-        varBaseVals[1] = new BinHexVariableBaseValue(8);
-        varBaseVals[2] = new BinHexVariableBaseValue(17);
-        varBaseVals[3] = new BinHexVariableBaseValue(257);
+        varBaseVals[0] = new BinHexVarBaseValue(2);
+        varBaseVals[1] = new BinHexVarBaseValue(8);
+        varBaseVals[2] = new BinHexVarBaseValue(17);
+        varBaseVals[3] = new BinHexVarBaseValue(257);
         
         //print用のmethodを作成した
-        //baseに15と1を代入し、それぞれ10と2になることを確かめている
+        //baseに20と1を代入し、それぞれ16と2になることを確かめている
 
         //1は2進数に置き換えられる
         print(1, varBaseVals);
@@ -32,17 +32,17 @@ public class BinHexVarBaseValTester {
     }
     
     //動作が正しく行えていることを確認するmethod
-    private static void print(int base, BinHexVariableBaseValue[] a) {
+    private static void print(int base, BinHexVarBaseValue[] a) {
 
         //baseをsetできていることを確認
-        BinHexVariableBaseValue.setBase(base);
+        BinHexVarBaseValue.setBase(base);
 
         //printした後、valueとbaseをgetできていることを確認（toStringの内容と合致している）
         for(int i = 0; i < a.length; i++) { 
             System.out.println("------------------------");
             System.out.println(a[i]); 
             System.out.println("getValue():" + a[i].getValue());
-            System.out.println("getBase():" + BinHexVariableBaseValue.getBase());
+            System.out.println("getBase():" + BinHexVarBaseValue.getBase());
         }
     }
 }

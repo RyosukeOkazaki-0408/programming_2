@@ -1,11 +1,11 @@
 // VariableBaseValueクラスを書く
 
-public class BinHexVariableBaseValue {
+public class BinHexVarBaseValue {
     private static int base = 10;
     private int value;
 
     // //コンストラクタ
-    public BinHexVariableBaseValue(int v) {
+    public BinHexVarBaseValue(int v) {
         value = v;
     }
     
