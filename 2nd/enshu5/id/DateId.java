@@ -7,7 +7,6 @@ import static java.util.GregorianCalendar.*;
 
 public class DateId {
 	private static int counter;
-
 	private int id;
 
 	static {
@@ -20,11 +19,7 @@ public class DateId {
 		counter = y * 1000000 + m * 10000 + d * 100;
 	}
 
-	public DateId() {
-		id = ++counter;
-	}
+	public DateId() { id = ++counter; }
 
-	public int getId() {
-		return id;
-	}
+	public int getId() { return id; }
 }

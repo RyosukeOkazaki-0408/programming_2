@@ -6,15 +6,17 @@ class ExId {
     private static int n = 1;
 	private int id;			
 
+	//counterをn増やす
 	public ExId() {
-        id = counter + n;
-        counter = id;
+		counter += n;
+        id = counter;
     }
 
 	public int getId() { return id; }
     public static int getN() { return n; }
     public static int getMaxId() { return counter; }
 
+	//nを設定
     public static void setN(int n) { ExId.n = n; }
 }
 

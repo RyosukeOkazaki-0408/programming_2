@@ -10,80 +10,362 @@
 教えてもらった人の学籍番号・名前
 教えてあげた人の学籍番号・名前
 
-----------meikai9-1-----------
+----------enshu1-----------
 • 提出ファイル等の説明
+IdTester
 
+class Id {
+	private static int counter = 0;		
+
+	private int id;			
+
+	public Id() { id = ++counter; }
+
+	public int getId() { return id; }
+
+	//最後のId(counter)を取得
+    public static int getMaxId() { return counter; }
+}
+
+public class IdTester {
+
+	public static void main(String[] args) {
+		Id a = new Id();
+		Id b = new Id();
+
+		System.out.println("a.getId() = " + a.getId());
+		System.out.println("b.getId() = " + b.getId());
+
+		//最後のIdを表示
+		System.out.println("getMaxId() = " + Id.getMaxId());
+	}
+}
 
 ------------------------------
 • プログラムの使い方の説明
 
+getMaxId()で最後のIdが出力される。
+それ以外は教科書と同じである。
 
 ------------------------------
 • 考察
 
+カウンターが最後に付与されたIdと同一であることを利用した。
 
 ------------------------------
-• 自己評価
+• 自己評価 A
 
-----------meikai9-2-----------
+----------enshu2-----------
 • 提出ファイル等の説明
+ExIdTester
 
+class ExId {
+	private static int counter = 0;	
+    private static int n = 1;
+	private int id;			
+
+	//counterをn増やす
+	public ExId() {
+		counter += n;
+        id = counter;
+    }
+
+	public int getId() { return id; }
+    public static int getN() { return n; }
+    public static int getMaxId() { return counter; }
+
+	//nを設定
+    public static void setN(int n) { ExId.n = n; }
+}
+
+public class ExIdTester {
+
+	public static void main(String[] args) {
+		ExId a = new ExId();
+		ExId b = new ExId();
+		ExId c = new ExId();
+
+        //n = 3;
+        ExId.setN(3);
+
+        ExId d = new ExId();
+		ExId e = new ExId();
+		ExId f = new ExId();
+
+		System.out.println("a.getId() = " + a.getId());
+		System.out.println("b.getId() = " + b.getId());
+		System.out.println("c.getId() = " + c.getId());
+		System.out.println("d.getId() = " + d.getId());
+		System.out.println("e.getId() = " + e.getId());
+		System.out.println("f.getId() = " + f.getId());
+
+	}
+}
 
 ------------------------------
 • プログラムの使い方の説明
 
+setN()で値を入力できるようにした。
+Idの増え方が変化する（setN()の値ずつ増加）。
+使い方は変わっていない。
 
 ------------------------------
 • 考察
 
+++couterになっていたものをcounter += nに変更して、nのセッタを追加した。
+それ以外はenshu1とほとんど同じである。
 
 ------------------------------
-• 自己評価
+• 自己評価 A
 
-----------meikai9-3-----------
+----------enshu3-----------
 • 提出ファイル等の説明
+MinMax
 
+import java.util.Arrays;
+
+public class MinMax {
+
+    public static int max(int a, int b) { return Math.max(a, b); }
+    public static int min(int a, int b) { return Math.min(a, b); }
+
+    //上で定義した関数を利用
+    public static int max(int a, int b, int c) { return max(a, max(b, c)); }
+    public static int min(int a, int b, int c) { return min(a, min(b, c)); }
+
+    //引数の各要素を比較して最大値を出力、最小値についても同様
+    public static int max(int[] a) { 
+        int mx = Integer.MIN_VALUE;
+        for(int i = 0; i < a.length; i++) { mx = (mx < a[i]) ? a[i] : mx; }
+        return mx;
+    }
+    public static int min(int[] a) {
+        int mn = Integer.MAX_VALUE;
+        for(int i = 0; i < a.length; i++) { mn = (mn > a[i]) ? a[i] : mn; }
+        return mn;
+    }
+}
+
+------------------------------
+MinMaxTester
+
+import java.util.Arrays;
+
+public class MinMaxTester {
+    public static void main(String[] args) {
+        int a = -1;
+        int b = 2;
+        int c = 5;
+        int[] nums = {a, b, c};
+
+        //a,b,c,numsの要素を表示
+        System.out.println("a = " + a);
+        System.out.println("b = " + b);
+        System.out.println("c = " + c);
+        System.out.println("nums = " + Arrays.toString(nums));
+
+        System.out.println();
+
+        //出力結果を表示
+        System.out.println("max(a, b) = " + MinMax.max(a, b));
+        System.out.println("min(a, b) = " + MinMax.min(a, b));
+        System.out.println("max(a, b, c) = " + MinMax.max(a, b, c));
+        System.out.println("min(a, b, c) = " + MinMax.min(a, b, c));
+        System.out.println("max(nums) = " + MinMax.max(nums));
+        System.out.println("min(nums) = " + MinMax.min(nums));
+    }
+}
 
 ------------------------------
 • プログラムの使い方の説明
 
+min(),max()に色々な引数を入れる。
+課題の条件通り、2つ、3つ、配列に対応している。
 
 ------------------------------
 • 考察
 
+3つのmax,minについては、上で定義した2つのmethodを利用することでコードを省略した。　
+
+public static int max(int a, int b) { return max(new int[]{a, b}); }
+public static int min(int a, int b) { return min(new int[]{a, b}); }
+public static int max(int a, int b, int c) { return max(new int[]{a, b, c}); }
+public static int min(int a, int b, int c) { return min(new int[]{a, b, c}); }
+
+上記のようにmax(int[] a),min(int[] a)を再利用する方法も思いついたが、明らかに処理が重くなるのでやめた。
 
 ------------------------------
-• 自己評価
+• 自己評価 A
 
-----------meikai9-4-----------
+----------enshu4-----------
 • 提出ファイル等の説明
+MyTime
 
+public class MyTime {
+    private int hour = 0, minute = 0;
+    private static int hourDifference = 0;
+
+    //コンストラクタ
+    public MyTime(int hour, int minute) {
+        this.hour = hour - hourDifference;
+        while(this.hour < 0) { this.hour += 24; }
+        this.hour %= 24;
+        this.minute = minute;
+    }
+    public MyTime() {}
+
+    //時差のセッタとゲッタ
+    public static int getHourDif() { return hourDifference; }
+    public static void setHourDif(int n) { hourDifference = n; }
+
+    //時差ありの時刻と標準時のセッタ
+    public void setTime(int hour, int minute) {
+        this.hour = hour - hourDifference;
+        while(this.hour < 0) { this.hour += 24; }
+        this.hour %= 24;
+        this.minute = minute;
+    }
+    public void setUTC(int hour, int minute) {
+        this.hour = hour;
+        while(this.hour < 0) { this.hour += 24; }
+        this.hour %= 24;
+        this.minute = minute;
+    }
+
+    //時差ありの時刻と標準時の表示
+    public void printTime() {
+        int tmp = hour + hourDifference;
+        while(tmp < 0) { tmp += 24; }
+        tmp %= 24;
+        System.out.println(tmp + "時" + minute + "分");
+    }
+    public void printUTC() { System.out.println(this); }
+
+    @Override
+    public String toString() { return hour + "時" + minute + "分"; }
+}
+
+------------------------------
+MyTimeTester
+
+public class MyTimeTester {
+    public static void main(String[] args) {
+        MyTime.setHourDif(9);
+        MyTime JP = new MyTime(13, 45); //Japan
+        System.out.println("標準時との時差は" + MyTime.getHourDif() + "時間");
+
+        //時刻の表示
+        System.out.print("日本(東京)の時刻は");
+        JP.printTime();
+        System.out.print("標準時は");
+        JP.printUTC();
+
+        System.out.println();
+
+        MyTime.setHourDif(8);
+        MyTime KL = new MyTime(); //Kuala Lumpur
+        KL.setTime(12, 45);
+        System.out.println("標準時との時差は" + MyTime.getHourDif() + "時間");
+
+        //時刻の表示
+        System.out.print("マレーシア(クアラルンプール)の時刻は");
+        KL.printTime();
+        System.out.print("標準時は");
+        KL.printUTC();
+    }
+}
 
 ------------------------------
 • プログラムの使い方の説明
 
+setHourDif()で時差を設定し、MyTime()のインスタンスを作成
+printTime()でそのインスタンスの時間、printUTC()で標準時が出力される。
 
 ------------------------------
 • 考察
 
+時差によってhourが負になったり25以上になったりしないような処理を追加した。
+標準時と現在時刻を取得するパッケージを利用したら面白いかなと思ったが、setUTC()の作成が指示されており、題意に沿わないためやめた。
 
 ------------------------------
-• 自己評価
+• 自己評価 A
 
-----------meikai9-5-----------
+----------enshu5-----------
 • 提出ファイル等の説明
+id/DateId
 
+//packageを設定した
+package id;
+
+import java.util.GregorianCalendar;
+import static java.util.GregorianCalendar.*;
+
+public class DateId {
+	private static int counter;
+	private int id;
+
+	static {
+		GregorianCalendar today = new GregorianCalendar();
+		int y = today.get(YEAR);
+		int m = today.get(MONTH) + 1;
+		int d = today.get(DATE);
+
+		System.out.printf("今日は%04d年%02d月%02d日です。\n", y, m, d);
+		counter = y * 1000000 + m * 10000 + d * 100;
+	}
+
+	public DateId() { id = ++counter; }
+
+	public int getId() { return id; }
+}
+
+------------------------------
+DateIdTester
+
+import id.DateId;
+
+public class DateIdTester {
+	public static void main(String[] args) {
+		DateId a = new DateId();
+		DateId b = new DateId();
+		DateId c = new DateId();
+
+		System.out.println("aの識別番号：" + a.getId());
+		System.out.println("bの識別番号：" + b.getId());
+		System.out.println("cの識別番号：" + c.getId());
+	}
+}
+→ fileをimportして、パッケージ名を省略した
+
+------------------------------
+DateIdTester2
+
+public class DateIdTester2 {
+	public static void main(String[] args) {
+		id.DateId a = new id.DateId();
+		id.DateId b = new id.DateId();
+		id.DateId c = new id.DateId();
+
+		System.out.println("aの識別番号：" + a.getId());
+		System.out.println("bの識別番号：" + b.getId());
+		System.out.println("cの識別番号：" + c.getId());
+	}
+}
+→ パッケージ名を省略せずに書いた版
 
 ------------------------------
 • プログラムの使い方の説明
 
+ほとんどが教科書と同じで、packageやimportを増やしただけなので、特に使用できる箇所はない
 
 ------------------------------
 • 考察
 
+importやpackageの設定方法がわかった。
+今までimportを何も考えずに使っていたが、自分でもpackageを作ることができると知って驚いた。
 
 ------------------------------
-• 自己評価
+• 自己評価 A
 
 ------------kadai-------------
 • 提出ファイル等の説明
@@ -198,18 +480,144 @@ toString()の内容については、hintをほぼそのまま利用したが、
 
 ------------kadai2-------------
 • 提出ファイル等の説明
+ComplexNumber
 
+public class ComplexNumber {
+    private double real = 0, imaginal = 0;
+
+    public ComplexNumber() {}
+    public ComplexNumber(double real, double imaginal) {
+        this.real = real;
+        this.imaginal = imaginal;
+    }
+    public ComplexNumber(ComplexNumber a) {
+        this(a.real, a.imaginal);
+    }
+
+    @Override
+    public String toString() {
+        if(imaginal == 0) { return real + ""; }
+        if(imaginal != 1 && imaginal != -1) {
+            if(real == 0) { return imaginal + "i"; }
+            if(imaginal > 0) {return real + "+" + imaginal + "i"; }
+            else { return real + "" + imaginal + "i"; }
+        }
+        else {
+            if(real == 0) { return ((imaginal == 1) ? "" : "-") + "i"; }
+            else { return real + ((imaginal == 1) ? "+" : "-") + "i"; }
+        }
+    }
+
+    //add
+    public static ComplexNumber add(ComplexNumber a, ComplexNumber b) {
+        double real = a.real + b.real;
+        double imaginal = a.imaginal + b.imaginal;
+        return new ComplexNumber(real, imaginal);
+    }
+    public ComplexNumber add(ComplexNumber a) { return add(this, a); }
+
+    //sub
+    public static ComplexNumber sub(ComplexNumber a, ComplexNumber b) {
+        double real = a.real - b.real;
+        double imaginal = a.imaginal - b.imaginal;
+        return new ComplexNumber(real, imaginal);
+    }
+    public ComplexNumber sub(ComplexNumber a) { return sub(this, a); }
+    
+    //mul
+    public static ComplexNumber mul(ComplexNumber a, ComplexNumber b) {
+        double real = a.real * b.real - a.imaginal * b.imaginal;
+        double imaginal = a.real * b.imaginal + a.imaginal * b.real;
+        return new ComplexNumber(real, imaginal);
+    }
+    public ComplexNumber mul(ComplexNumber a) { return mul(this, a); }
+    
+    //div
+    public static ComplexNumber div(ComplexNumber a, ComplexNumber b) {
+        double denominator = Math.pow(b.real, 2) + Math.pow(b.imaginal, 2);
+        if(denominator == 0) { throw new ArithmeticException("0除算はできません。"); }
+        double real = (a.real * b.real + a.imaginal * b.imaginal) / denominator;
+        double imaginal = (a.imaginal * b.real - a.real * b.imaginal) / denominator;
+        return new ComplexNumber(real, imaginal);
+    }
+    public ComplexNumber div(ComplexNumber a) { return div(this, a); }
+
+    //abs
+    public static double abs(ComplexNumber a) { return Math.sqrt(Math.pow(a.real, 2) + Math.pow(a.imaginal, 2)); }
+    public double abs() { return abs(this); }
+
+    //conjugate
+    public static ComplexNumber conjugate(ComplexNumber a) { return new ComplexNumber(a.real, -a.imaginal); }
+    public ComplexNumber conjugate() { return conjugate(this); }
+}
+
+------------------------------
+ComplexNumberTester
+
+public class ComplexNumberTester {
+    public static void main(String[] args) {
+
+        //インスタンスの作成
+        ComplexNumber a = new ComplexNumber();
+        ComplexNumber b = new ComplexNumber(3, -5);
+        ComplexNumber c = new ComplexNumber(0, 4);
+
+        //値の表示
+        System.out.println("a = " + a);
+        System.out.println("b = " + b);
+        System.out.println("c = " + c);
+        System.out.println();
+
+        //b+cを2通りの方法で表示
+        System.out.println("b.add(c) = " + b.add(c));
+        System.out.println("add(b,c) = " + ComplexNumber.add(b,c));
+
+        System.out.println();
+
+        //b-cを2通りの方法で表示
+        System.out.println("b.sub(c) = " + b.sub(c));
+        System.out.println("sub(b,c) = " + ComplexNumber.sub(b,c));
+
+        System.out.println();
+
+        //b*cを2通りの方法で表示
+        System.out.println("b.mul(c) = " + b.mul(c));
+        System.out.println("mul(b,c) = " + ComplexNumber.mul(b,c));
+
+        System.out.println();
+
+        //b/cを2通りの方法で表示
+        System.out.println("b.div(c) = " + b.div(c));
+        System.out.println("div(b,c) = " + ComplexNumber.div(b,c));
+
+        System.out.println();
+
+        //|b|を2通りの方法で表示
+        System.out.println("b.abs() = " + b.abs());
+        System.out.println("abs(b) = " + ComplexNumber.abs(b));
+
+        System.out.println();
+
+        //bの共役複素数を2通りの方法で表示
+        System.out.println("b.conjugate() = " + b.conjugate());
+        System.out.println("conjugate(b) = " + ComplexNumber.conjugate(b));
+    }
+}
 
 ------------------------------
 • プログラムの使い方の説明
 
+add(),sub(),mul(),div()を、それぞれクラスメソッドとインスタンスメソッドの2種類用意した。
+また、abs()で絶対値を返し、conjugate()で共役複素数を返す。これらも2通りある。
 
 ------------------------------
 • 考察
 
+以前プログラミング1で複素数クラスを作成する課題があった（クラスを使う点以外はほとんど同じ）ため、比較的容易に作成することができた。
+0除算を防止したり、toString()に場合分けの種類を追加して、0+1iがiになるようにしたりと、細かい修正をいくつか加えた。
 
 ------------------------------
-• 自己評価
+• 自己評価 A
 
 ----------challenge-----------
 • 提出ファイル等の説明

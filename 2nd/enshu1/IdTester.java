@@ -10,6 +10,7 @@ class Id {
 
 	public int getId() { return id; }
 
+	//最後のId(counter)を取得
     public static int getMaxId() { return counter; }
 }
 
@@ -22,6 +23,7 @@ public class IdTester {
 		System.out.println("a.getId() = " + a.getId());
 		System.out.println("b.getId() = " + b.getId());
 
+		//最後のIdを表示
 		System.out.println("getMaxId() = " + Id.getMaxId());
 	}
 }

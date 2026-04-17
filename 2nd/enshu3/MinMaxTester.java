@@ -9,12 +9,15 @@ public class MinMaxTester {
         int c = 5;
         int[] nums = {a, b, c};
 
+        //a,b,c,numsの要素を表示
         System.out.println("a = " + a);
         System.out.println("b = " + b);
         System.out.println("c = " + c);
         System.out.println("nums = " + Arrays.toString(nums));
+
         System.out.println();
 
+        //出力結果を表示
         System.out.println("max(a, b) = " + MinMax.max(a, b));
         System.out.println("min(a, b) = " + MinMax.min(a, b));
         System.out.println("max(a, b, c) = " + MinMax.max(a, b, c));
