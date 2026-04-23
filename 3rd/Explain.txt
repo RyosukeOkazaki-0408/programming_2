@@ -72,18 +72,370 @@
 
 ----------challenge-----------
 • 提出ファイル等の説明
+Nim
 
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Nim {
+    private static int[] mts;
+    private static Player P1;
+    private static Player P2;
+    public static void main(String[] args) {
+
+        //trueの方が課題確認が楽だと思います
+        final boolean testMode = true;
+        //falseは遊ぶ時用
+
+        if(testMode) {
+            set(4, 10); // 4山くずし（石10個）
+            start();
+
+            set(3, 5, "user1"); // 3山くずし（石5個）
+            start();
+
+            set(2, 3, "user1", "user2"); // 2山くずし（石3個）
+            start();
+        } else {
+            final Scanner sc = new Scanner(System.in);
+            int cnt = 0, type = 0;
+
+            // 初期条件の設定と例外処理
+            System.out.println("何山くずしをプレイしますか？(1以上の整数値で入力)");
+            while(true) {
+                try { mts = new int[sc.nextInt()]; }
+                catch(Exception e) { 
+                    System.out.println("1以上の整数値を入力してください。"); 
+                    sc.nextLine();
+                    continue;
+                }
+                if(mts.length <= 0) { System.out.println("1以上の整数値を入力してください。"); }
+                else break;
+            }
+
+            System.out.println("\nモードを選択してください。\n0: 2人で対戦\n1: CPUと対戦\n2: CPU同士の対戦を見る");
+            while(true) {
+                try { type = sc.nextInt(); }
+                catch(Exception e) { 
+                    System.out.println("0,1,2のいずれかを入力してください。"); 
+                    sc.nextLine();
+                    continue;
+                }
+                if(type < 0 || 2 < type) { System.out.println("0,1,2のいずれかを入力してください。"); }
+                else break;
+            }
+
+            System.out.println("遊ぶ山の高さを選択してください。");
+            while(true) {
+                try { cnt = sc.nextInt(); }
+                catch(Exception e) { 
+                    System.out.println("1以上の整数値を入力してください。"); 
+                    sc.nextLine();
+                    continue;
+                }
+                if(cnt <= 0) { System.out.println("1以上の整数値を入力してください。"); }
+                else break;
+            }
+
+            // 山に石を乗せる
+            Arrays.fill(mts, cnt);
+
+            // typeに応じてPlayerかComputerかを選ぶ
+            if(type == 0) {
+                System.out.println("P1の名前を選択してください。");
+                P1 = new Player(sc.next());
+                System.out.println("P2の名前を選択してください。");
+                P2 = new Player(sc.next());
+            } else if(type == 1) {
+                System.out.println("あなたの名前を選択してください。");
+                P1 = new Player(sc.next());
+                P2 = new Computer();
+            } else {
+                P1 = new Computer();
+                P2 = new Computer();
+            }
+
+            // ゲーム開始
+            start();
+        }
+    }
+    
+    private static void start() {
+        System.out.println("----------------------------------------");
+        System.out.println("ゲームを開始します。");
+        System.out.println("----------------------------------------");
+
+        // 勝敗が決まるまで交互に石を取る
+        // 勝敗が決まるとbreakされる
+        while (true) {
+            if(P1.take(mts)) { break; }
+            if(P2.take(mts)) { break; }
+        }
+    }
+
+    // testMode == trueの際の設定
+    private static void set(int size, int cnt) { // type = 2;
+        mts = new int[size];
+        Arrays.fill(mts, cnt);
+        Computer.reset();
+        P1 = new Computer();
+        P2 = new Computer();
+    }
+    
+    private static void set(int size, int cnt, String name) { // type = 1;
+        mts = new int[size];
+        Arrays.fill(mts, cnt);
+        Player.reset();
+        Computer.reset();
+        P1 = new Player(name);
+        P2 = new Computer();
+    }
+
+    private static void set(int size, int cnt, String name1, String name2) { // type = 0;
+        mts = new int[size];
+        Arrays.fill(mts, cnt);
+        Player.reset();
+        P1 = new Player(name1);
+        P2 = new Player(name2);
+    }
+}
+
+------------------------------
+Player
+
+import java.util.Scanner;
+import java.util.Arrays;
+
+public class Player {
+    private static final Scanner sc = new Scanner(System.in);
+    private static int turn = 0;
+    private String name = "";
+
+    public Player(String name) { 
+        this.name = name;
+    }
+
+    // ゲッタとセッタ
+    public String getName() { return name; }
+    public static void reset() { turn = 0; }
+
+    // 勝敗が決まるとtrueを返す
+    public boolean take(int[] mts) {
+        int mt = 0, cnt = 0;
+    
+        // 現在の山の状況を表示
+        printMts(mts);
+        
+        // 山と石の選択と例外処理
+        System.out.println("\n" + this.name + "の番です。\n石を取る山を選択してください。(1以上" + mts.length + "以下の整数値)");
+        while(true) {
+            try { mt = sc.nextInt() - 1; }
+            catch(Exception e) { 
+                System.out.println("1以上" + mts.length + "以下の整数値を入力してください。");
+                sc.nextLine();
+                continue;
+            }
+            if(mt < 0 || mts.length <= mt) { System.out.println("1以上" + mts.length + "以下の整数値を入力してください。"); }
+            else if(mts[mt] == 0) { System.out.println("選択した山には石が存在しません。"); }
+            else break;
+        }
+        
+        System.out.println("石を取る個数を選択してください。");
+        while(true) {
+            try { cnt = sc.nextInt(); }
+            catch(Exception e) { 
+                System.out.println("1以上の整数値を入力してください。"); 
+                sc.nextLine();
+                continue;
+            }
+            if(cnt <= 0) { System.out.println("1以上の整数値を入力してください。"); }
+            else if(mts[mt] - cnt < 0) { System.out.println("選択した山には" + mts[mt] + "個しか石がありません。"); }
+            else break;
+        }
+        System.out.println("----------------------------------------");
+        
+        // 山から石を取っている
+        mts[mt] -= cnt;
+
+        // 勝敗を判定
+        return this.judge(mts);
+    }
+
+    // 全ての石が0であればtrueを返す
+    protected boolean judge(int[] mts) {
+        for(int a : mts) {
+            if(a != 0) { return false; }
+        }
+        System.out.println("\n" + Arrays.toString(mts));
+        System.out.println("\nおめでとうございます！" + this.name + "の勝利です！");
+        System.out.println("----------------------------------------");
+        return true;
+    }
+
+    // 現在の山の状況を表示
+    protected void printMts(int[] mts) {
+        System.out.println("\n" + Arrays.toString(mts) + " (" + ++turn +"手目の山)");
+    }
+}
+
+------------------------------
+Computer
+
+import java.util.Random;
+
+public class Computer extends Player {
+    private static int id = 0;
+    private final Random rand = new Random();
+    private static final int interval = 500;
+
+    public Computer() { super("CPU" + ++id); }
+
+    // testMode == true時の初期化メソッド
+    public static void reset() {
+        id = 0;
+        Player.reset();
+    }
+
+    @Override
+    public boolean take(int[] mts) {
+        int mt = 0, cnt = 0;
+
+        // 視認性向上のためのinterval処理
+        try {
+            Thread.sleep(interval);
+        } catch(InterruptedException e){}  
+
+        // 現在の山の状況を表示
+        printMts(mts);
+
+        // ニム和が0でない場合に、ニム和が0になるように動く
+        if(nimSum(mts) != 0) {
+            boolean changed = false;
+            int[] tmp = mts.clone();
+            
+            for(int i = 0; i < mts.length; i++) {
+                for(int j = mts[i]; j >= 1; j--) {
+                    tmp[i] -= j;
+                    if(nimSum(tmp) == 0) {
+                        mt = i;
+                        cnt = j;
+                        mts[mt] -= cnt;
+                        changed = true;
+                        break;
+                    } else { tmp[i] = mts[i]; }
+                }
+                if(changed) { break; }
+            }
+        // ニム和が0（最善手がない）場合、ランダムな山からランダムに石を取る
+        } else {
+            mt = rand.nextInt(mts.length);
+            while(mts[mt] == 0) {
+                mt++;
+                mt %= mts.length;
+            }
+
+            cnt = rand.nextInt(mts[mt]) + 1;
+            mts[mt] -= cnt;
+        }
+        
+        System.out.println("\n" + getName() + "は山" + ++mt + "から、石を" + cnt + "個取ります。");
+        System.out.println("----------------------------------------");
+
+        // 勝敗の判定
+        return judge(mts);
+    }
+
+    // ニム和（排他的論理和）を計算している
+    private static int nimSum(int[] mts) {
+        int sum = 0;
+        for(int a : mts) sum ^= a;
+        return sum;
+    }
+}
 
 ------------------------------
 • プログラムの使い方の説明
+testModeがfalseの際の使い方を説明する。
+基本はprintされた文字列の指示に従うだけなので、実行例を見せる。
 
+----実行例----
+何山くずしをプレイしますか？(1以上の整数値で入力)
+2
+
+モードを選択してください。
+0: 2人で対戦
+1: CPUと対戦
+2: CPU同士の対戦を見る
+1
+遊ぶ山の高さを選択してください。
+1
+あなたの名前を選択してください。
+ryosuke
+----------------------------------------
+ゲームを開始します。
+----------------------------------------
+----実行例おわり----
+
+このような初期設定を行ったのちに、ゲームが開始される。
+testModeがtrueの場合は、ここまでの初期設定が自動的に行われる。
+次に、例外処理の実行例を見せる。
+
+----実行例----
+[1, 1] (1手目の山)
+
+ryosukeの番です。
+石を取る山を選択してください。(1以上2以下の整数値)
+0    
+1以上2以下の整数値を入力してください。
+a a a a a a a a a a
+1以上2以下の整数値を入力してください。
+1
+石を取る個数を選択してください。
+5
+選択した山には1個しか石がありません。
+-1
+1以上の整数値を入力してください。
+a b c d e f g
+1以上の整数値を入力してください。
+----実行例おわり----
+
+このように、ルール違反だけでなくstringの入力なども弾かれるようにしている。
 
 ------------------------------
 • 考察
+課題自体は、今までのチャレンジ課題と比較してそれほど難しいものではなかったが、デザイン面や拡張（しなくてもよい）にかなりの時間を要した。
+課題条件にあったゲームオーバー処理は、敗北判定ではなく試合終了判定のことを指していると捉え、勝利判定を行なっている。
 
+工夫した点を紹介する
 
+・例外処理に力を入れた
+石や山の数をこえるような値、負の数などを弾くことはもちろん、try-catchを用いてstirngなどを入力されても対応できるようにした。
+
+・CPU作成に力を入れた
+三山くずし（n山くずし）について調べてみると、どうやら必勝法があるとわかったので、その必勝法を常に満たすような動きをする最強のCPUを作成した。
+最善手が存在しない場合は、打てる手からランダムな手を打つように作成している（java.util.Randomを用いた）。
+nが奇数の場合では先手必勝、偶数の場合は後手必勝である。
+後述するが、本プログラムの対CPUモードでは先手がPlayerであるため、三山くずしにおいては理論上Playerが必ず勝てる。
+また、出力にinterval（finalで初期値は500）をかけることで視認性を向上させた。
+
+・3種類のモードを作成した
+2Pモード、Player対CPUモード、CPU対CPUモードの3種類を用意した。
+
+・表示方法を工夫した
+わかりやすいデザインとなるように心がけた。
+また、Scannerがたくさんあると課題確認が大変と聞いたので、testModeをbooleanで用意した。
+testModeがtrueになっていれば、石の数などの初期設定が自動的に設定される。
+
+・n山くずしに拡張した
+三山くずしではつまらないと思い、n山くずしで遊べるようにした。
+拡張が比較的容易にできるよう、マジックナンバーを極力用いないようにしている。
+n = 3にすれば、課題の条件を満たすことができる。
+ちなみに、石1000個の5000山崩しをCPU同士で対決させたところ、35856手かかった。
+
+親クラスにこんな便利な使い方があるなんて知らなかったので、とても勉強になった。
+クラスを知らなかった頃の自身のコードと比べると、かなり視認性が上がっている気がする。
 ------------------------------
-• 自己評価
+• 自己評価 A
 
 ------------------------------
 • 教えた人（教えてくれた人）
