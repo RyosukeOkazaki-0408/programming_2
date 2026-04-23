@@ -3,12 +3,17 @@ import java.util.Random;
 public class Computer extends Player {
     private static int id = 0;
     private final Random rand = new Random();
+    private static final interval = 500;
 
     public Computer() { super("CPU" + ++id); }
 
     @Override
     public boolean take(int[] mts) {
         int mt = 0, cnt = 0;
+
+        try {
+            Thread.sleep(interval);
+        } catch(InterruptedException e){}  
 
         printMts(mts);
 
@@ -40,7 +45,8 @@ public class Computer extends Player {
             mts[mt] -= cnt;
         }
         
-        System.out.println("\n" + getName() + "は山" + ++mt + "から、石を" + cnt + "個取りました。");
+        System.out.println("\n" + getName() + "は山" + ++mt + "から、石を" + cnt + "個取ります。");
+        System.out.println("----------------------------------------");
 
         return judge(mts);
     }

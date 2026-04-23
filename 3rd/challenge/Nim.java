@@ -63,6 +63,7 @@ public class Nim {
 
         System.out.println("----------------------------------------");
         System.out.println("ゲームを開始します。");
+        System.out.println("----------------------------------------");
 
         while (true) {
             if(P1.take(mts)) { break; }

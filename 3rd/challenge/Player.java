@@ -3,6 +3,7 @@ import java.util.Arrays;
 
 public class Player {
     private static final Scanner sc = new Scanner(System.in);
+    private static int turn = 0;
     private String name = "";
 
     public Player(String name) { 
@@ -38,9 +39,10 @@ public class Player {
                 continue;
             }
             if(cnt <= 0) { System.out.println("1以上の整数値を入力してください。"); }
-            else if(mts[mt] - cnt < 0) { System.out.println("選択した山には" + cnt + "個の石がありません。"); }
+            else if(mts[mt] - cnt < 0) { System.out.println("選択した山には" + mts[mt] + "個しか石がありません。"); }
             else break;
         }
+        System.out.println("----------------------------------------");
         
         mts[mt] -= cnt;
 
@@ -51,14 +53,13 @@ public class Player {
         for(int a : mts) {
             if(a != 0) { return false; }
         }
-        System.out.println("----------------------------------------");
-        System.out.println(this.name + "の勝利です。");
+        System.out.println("\n" + Arrays.toString(mts));
+        System.out.println("\nおめでとうございます！" + this.name + "の勝利です！");
         System.out.println("----------------------------------------");
         return true;
     }
 
     protected void printMts(int[] mts) {
-        System.out.println("----------------------------------------");
-        System.out.println("\n" + Arrays.toString(mts) + " (現在の山)");
+        System.out.println("\n" + Arrays.toString(mts) + " (" + ++turn +"手目の山)");
     }
 }
