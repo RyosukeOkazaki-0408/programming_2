@@ -1,13 +1,14 @@
 // SinVPGraphのサブクラスのSawToothVPGraphクラスを書く
 
-public class SawToothVPGraph extends SinVPGraph{
+public class SawToothVPGraph extends SinVPGraph {
 
-	public SawToothVPGraph(String symbol, int t){
+	public SawToothVPGraph(char symbol, int t) {
 		super(symbol, t);
 	}
 
-	@Override public void computeY(){
-		setY((2*Y_MAX/t)*(super.x-Math.floor(super.x/t)*t)-Y_MAX);
+	@Override
+	public void computeY() {
+		setY((int)(2*Y_MAX/t)*(getX()%t)-Y_MAX);
 	}
 
 }

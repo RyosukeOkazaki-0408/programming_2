@@ -13,7 +13,7 @@ public class SinVPGraph extends VirtPlotGraph{
 	public void setT(int t){ this.t = t; }
 
 	@Override public void computeY(){
-		setY((int)Math.sin(super.x));
+		setY((int)(Y_MAX*Math.sin(2*Math.PI*getX()/t)));
 	}
 
 }
