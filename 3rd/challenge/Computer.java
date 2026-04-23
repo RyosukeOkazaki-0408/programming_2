@@ -8,10 +8,7 @@ public class Computer extends Player {
     public Computer() { super("CPU" + ++id); }
 
     // testMode == true時の初期化メソッド
-    public static void reset() {
-        id = 0;
-        Player.reset();
-    }
+    public static void reset() { id = 0; }
 
     @Override
     public boolean take(int[] mts) {

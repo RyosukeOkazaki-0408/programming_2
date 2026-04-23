@@ -101,7 +101,7 @@ public class Nim {
     private static void set(int size, int cnt) { // type = 2;
         mts = new int[size];
         Arrays.fill(mts, cnt);
-        Computer.reset();
+        reset();
         P1 = new Computer();
         P2 = new Computer();
     }
@@ -109,8 +109,7 @@ public class Nim {
     private static void set(int size, int cnt, String name) { // type = 1;
         mts = new int[size];
         Arrays.fill(mts, cnt);
-        Player.reset();
-        Computer.reset();
+        reset();
         P1 = new Player(name);
         P2 = new Computer();
     }
@@ -118,8 +117,13 @@ public class Nim {
     private static void set(int size, int cnt, String name1, String name2) { // type = 0;
         mts = new int[size];
         Arrays.fill(mts, cnt);
-        Player.reset();
+        reset();
         P1 = new Player(name1);
         P2 = new Player(name2);
+    }
+
+    private static void reset() {
+        Player.reset();
+        Computer.reset();
     }
 }

@@ -177,7 +177,7 @@ public class Nim {
     private static void set(int size, int cnt) { // type = 2;
         mts = new int[size];
         Arrays.fill(mts, cnt);
-        Computer.reset();
+        reset();
         P1 = new Computer();
         P2 = new Computer();
     }
@@ -185,8 +185,7 @@ public class Nim {
     private static void set(int size, int cnt, String name) { // type = 1;
         mts = new int[size];
         Arrays.fill(mts, cnt);
-        Player.reset();
-        Computer.reset();
+        reset();
         P1 = new Player(name);
         P2 = new Computer();
     }
@@ -194,9 +193,14 @@ public class Nim {
     private static void set(int size, int cnt, String name1, String name2) { // type = 0;
         mts = new int[size];
         Arrays.fill(mts, cnt);
-        Player.reset();
+        reset();
         P1 = new Player(name1);
         P2 = new Player(name2);
+    }
+
+    private static void reset() {
+        Player.reset();
+        Computer.reset();
     }
 }
 
@@ -209,7 +213,7 @@ import java.util.Arrays;
 public class Player {
     private static final Scanner sc = new Scanner(System.in);
     private static int turn = 0;
-    private String name = "";
+    private final String name;
 
     public Player(String name) { 
         this.name = name;
@@ -291,10 +295,7 @@ public class Computer extends Player {
     public Computer() { super("CPU" + ++id); }
 
     // testMode == true時の初期化メソッド
-    public static void reset() {
-        id = 0;
-        Player.reset();
-    }
+    public static void reset() { id = 0; }
 
     @Override
     public boolean take(int[] mts) {

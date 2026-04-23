@@ -4,7 +4,7 @@ import java.util.Arrays;
 public class Player {
     private static final Scanner sc = new Scanner(System.in);
     private static int turn = 0;
-    private String name = "";
+    private final String name;
 
     public Player(String name) { 
         this.name = name;
