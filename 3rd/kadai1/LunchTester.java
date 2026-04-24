@@ -5,6 +5,7 @@ public class LunchTester {
         LunchA bAsA = new LunchB("お子様カレー",300,"エビフライ",200);
         LunchA cAsA = new LunchC("激辛カレー",500,"はちみつ", 100, "野菜サラダ", 180);
 
+        // 料理名と価格、注文番号の表示
         a.print();
         bAsA.print();
         cAsA.print();

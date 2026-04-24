@@ -1,5 +1,3 @@
-// VirtPlotGraphクラスを書く
-
 public class VirtPlotGraph{
 
 	public static final int Y_MAX = 10;
@@ -18,6 +16,7 @@ public class VirtPlotGraph{
 
 	public static void println(){  System.out.println(new String(buffer)); }
 
+	// 配列外参照を防ぐ
 	public void plot(){
 		int y = this.y;
 		if(y < Y_MIN) y = Y_MIN;
@@ -30,6 +29,7 @@ public class VirtPlotGraph{
 
 	public VirtPlotGraph(char symbol){ this.symbol = symbol; }
 
+	// ゲッタとセッタ
 	public int getY(){ return y; }
 	public void setY(int y){ this.y = y; }
 

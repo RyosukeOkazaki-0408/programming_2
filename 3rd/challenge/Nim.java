@@ -1,28 +1,31 @@
 import java.util.Scanner;
-import java.util.Arrays;
+import java.util.Random;
 
 public class Nim {
     private static int[] mts;
     private static Player P1;
     private static Player P2;
+    private static int type = 0;
+    private static final Random rand = new Random();
     public static void main(String[] args) {
 
-        //trueの方が課題確認が楽だと思います
+        //trueの方が課題確認が楽だと思います%
         final boolean testMode = true;
         //falseは遊ぶ時用
 
         if(testMode) {
-            set(4, 10); // 4山くずし（石10個）
+
+            set(4, 15); // 4山くずし（石15個）
             start();
 
-            set(3, 5, "user1"); // 3山くずし（石5個）
+            set(3, 10, "user1"); // 3山くずし（石10個）
             start();
 
-            set(2, 3, "user1", "user2"); // 2山くずし（石3個）
+            set(2, 7, "user1", "user2"); // 2山くずし（石7個）
             start();
         } else {
             final Scanner sc = new Scanner(System.in);
-            int cnt = 0, type = 0;
+            int cnt = 0;
 
             // 初期条件の設定と例外処理
             System.out.println("何山くずしをプレイしますか？(1以上の整数値で入力)");
@@ -49,7 +52,7 @@ public class Nim {
                 else break;
             }
 
-            System.out.println("遊ぶ山の高さを選択してください。");
+            System.out.println("遊ぶ山の高さ(おおよその平均)を選択してください。");
             while(true) {
                 try { cnt = sc.nextInt(); }
                 catch(Exception e) { 
@@ -62,7 +65,9 @@ public class Nim {
             }
 
             // 山に石を乗せる
-            Arrays.fill(mts, cnt);
+            for(int i = 0; i < mts.length; i++) {
+                mts[i] = Math.max(1, cnt + rand.nextInt(cnt/2) - cnt/4);
+            }
 
             // typeに応じてPlayerかComputerかを選ぶ
             if(type == 0) {
@@ -91,32 +96,48 @@ public class Nim {
 
         // 勝敗が決まるまで交互に石を取る
         // 勝敗が決まるとbreakされる
-        while (true) {
-            if(P1.take(mts)) { break; }
-            if(P2.take(mts)) { break; }
+        if(type != 1 || mts.length % 2 != 0) {
+            while (true) {
+                if(P1.take(mts)) { break; }
+                if(P2.take(mts)) { break; }
+            }
+        } else {
+            while (true) {
+                if(P2.take(mts)) { break; }
+                if(P1.take(mts)) { break; }
+            }
         }
     }
 
     // testMode == trueの際の設定
-    private static void set(int size, int cnt) { // type = 2;
+    private static void set(int size, int cnt) { 
+        type = 2;
         mts = new int[size];
-        Arrays.fill(mts, cnt);
+        for(int i = 0; i < mts.length; i++) {
+            mts[i] = Math.max(1, cnt + rand.nextInt(cnt/2) - cnt/4);
+        }
         reset();
         P1 = new Computer();
         P2 = new Computer();
     }
     
-    private static void set(int size, int cnt, String name) { // type = 1;
+    private static void set(int size, int cnt, String name) {
+        type = 1;
         mts = new int[size];
-        Arrays.fill(mts, cnt);
+        for(int i = 0; i < mts.length; i++) {
+            mts[i] = Math.max(1, cnt + rand.nextInt(cnt/2) - cnt/4);
+        }
         reset();
         P1 = new Player(name);
         P2 = new Computer();
     }
 
-    private static void set(int size, int cnt, String name1, String name2) { // type = 0;
+    private static void set(int size, int cnt, String name1, String name2) {
+        type = 0;
         mts = new int[size];
-        Arrays.fill(mts, cnt);
+        for(int i = 0; i < mts.length; i++) {
+            mts[i] = Math.max(1, cnt + rand.nextInt(cnt/2) - cnt/4);
+        }
         reset();
         P1 = new Player(name1);
         P2 = new Player(name2);

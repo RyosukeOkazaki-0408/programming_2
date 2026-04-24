@@ -6,10 +6,12 @@ public class OdometerCar extends Car{
         odometer = 0.0;
     }
 
+    // odometerのゲッタ
     public double getOdometer() {
         return odometer;
     }
 
+    // moveしたときに、odometerを加算するように変更
     @Override
 	public boolean move(double dx, double dy) {
         double dist = Math.sqrt(dx * dx + dy * dy);

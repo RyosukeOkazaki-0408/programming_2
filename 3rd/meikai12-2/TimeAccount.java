@@ -6,12 +6,14 @@ class TimeAccount extends Account {
 		this.timeBalance = timeBalance;
 	}
 
+	// ゲッタ
 	public long getTimeBalance() { return timeBalance; }
 
 	static int compBalance(Account a, Account b) {
 		long aBalance = a.getBalance();
 		long bBalance = b.getBalance();
 
+		// 定期預金を持っていれば、その残高を加える
 		if(a instanceof TimeAccount) {
 			TimeAccount aTime = (TimeAccount)a;
 			aBalance += aTime.getTimeBalance();
@@ -21,6 +23,7 @@ class TimeAccount extends Account {
 			bBalance += bTime.getTimeBalance();
 		}
 
+		//値の比較
 		if(aBalance > bBalance) return 1;
 		if(aBalance < bBalance) return -1;
 		return 0;

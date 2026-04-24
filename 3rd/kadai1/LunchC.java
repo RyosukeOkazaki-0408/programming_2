@@ -3,6 +3,7 @@ public class LunchC extends LunchB{
   private String salad; // サラダの名前
   private int pSalad ; // サラダの価格
 
+  // コンストラクタ
   public LunchC(String curry , int pCurry,
   String topping, int pTopping,
         String salad, int pSalad){
@@ -11,9 +12,11 @@ public class LunchC extends LunchB{
      this.pSalad = pSalad;
   }
 
+  // LunchBにサラダを加えてsetにした
   @Override public String name(){
       return super.name() + salad + "セット"; }
 
+  // 値段も足した
   @Override public int price() {
       return super.price() + pSalad; }
 
